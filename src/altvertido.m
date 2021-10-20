@@ -1,4 +1,6 @@
-function [h]=altvertido(H1, Q, g, b, z, p)
+function [h]=altvertido(H1, Q, g, b, zi, zd, p)
+  
+  z=(zi+zd)/2;
   
   h=ones(1,numel(Q));;
   hant=zeros(1,numel(Q));;

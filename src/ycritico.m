@@ -1,4 +1,6 @@
-function [yc, H0min]=ycritico(Q, g, b, z)
+function [yc, H0min]=ycritico(Q, g, b, zi, zd)
+  
+  z=(zi+zd)/2;
   
   yc=ones(1,numel(Q));
   ycant=zeros(1,numel(Q));
