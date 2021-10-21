@@ -28,6 +28,7 @@ zBd = zAd; %Talud quijero (o cajero) derecho sobre el aforador
 L = 3.2; %Longitud del aforador
 n = 0.012; %Coeficiente n de Manning
 I0 = 0.016; %Pendiente topográfica de la rasante del canal aguas abajo del aforador
+Lmodular = 0.75; %Valor de la relación entre la energía aguas abajo y la mínima sobre el resalto, en relación a la rasante del aforador
 
 [yc, H0min] = ycritico(Q, g, bB, zBi, zBd);
 
@@ -84,15 +85,18 @@ hold off
 yNormal=caladoNormal(Q, g, I0, bA, zAi, zAd, n);
 
 figure()
-title('Sumergencia garantizada según n')
+title('Límite modular según n')
 xlabel('Q(m^{3}/s)')
-ylabel('y1-y0(m)')
+ylabel('L')
 ylim([0 1.2])
 hold on
 for n=0.012:0.002:0.03
   yNormal=caladoNormal(Q, g, I0, bA, zAi, zAd, n);
-  plot(Q, Resultado(5,:)-yNormal)
+  H0=yNormal+(Q./(bA*yNormal+(zAi+zAd)/2*yNormal.^2)).^2/2/g;
+  L=(H0-p)./Resultado(4,:);
+  plot(Q, L)
   etiqueta=sprintf('n=%d', n);
-  text(Q(end), Resultado(5,end)-yNormal(end), etiqueta)
+  text(Q(end), L(end), etiqueta)
 endfor
+plot([Q(1) Q(end)], [Lmodular Lmodular])
 hold off
